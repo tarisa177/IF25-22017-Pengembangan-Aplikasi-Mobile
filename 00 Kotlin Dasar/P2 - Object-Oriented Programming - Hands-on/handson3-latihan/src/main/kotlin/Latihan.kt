@@ -9,32 +9,45 @@
 // Sealed class membatasi semua subclass-nya harus diketahui di compile time,
 // sehingga `when` bisa exhaustive tanpa perlu cabang "else".
 // sealed class NetworkResult
+sealed class NetworkResult {
 
 // TODO 2: Buat NetworkResult.Loading sebagai "object" (tidak butuh data tambahan),
 // turunan dari NetworkResult.
 // object Loading : NetworkResult()
+    object Loading : NetworkResult()
+
+
 
 // TODO 3: Buat NetworkResult.Success sebagai "data class" yang membawa property
 // data: String, turunan dari NetworkResult.
 // data class Success(val data: String) : NetworkResult()
+    data class Success(val data: String) : NetworkResult()
 
 // TODO 4: Buat NetworkResult.Error sebagai "data class" yang membawa property
 // message: String, turunan dari NetworkResult.
 // data class Error(val message: String) : NetworkResult()
+    data class Error(val message: String) : NetworkResult()
+}
 
 fun describe(result: NetworkResult): String {
     // TODO 5: Gunakan `when` exhaustive (tanpa "else") untuk menangani ketiga
     // kemungkinan: Loading, Success, Error. Kompiler akan MEMAKSA kamu menangani
     // semuanya begitu Loading/Success/Error sudah jadi subclass NetworkResult.
     return when (result) {
-        is Loading -> "Sedang memuat..."
-        is Success -> "Berhasil: ${result.data}"
-        is Error -> "Gagal: ${result.message}"
+        is NetworkResult.Loading -> "Sedang memuat..."
+        is NetworkResult.Success -> "Berhasil: ${result.data}"
+        is NetworkResult.Error -> "Gagal: ${result.message}"
     }
 }
 
+
 fun main() {
-    println(describe(Loading))
-    println(describe(Success("Data pengguna berhasil diambil")))
-    println(describe(Error("Koneksi terputus")))
+    println(describe(NetworkResult.Loading))
+    println(describe(NetworkResult.Success("Data pengguna berhasil diambil")))
+    println(describe(NetworkResult.Error("Koneksi terputus")))
 }
+
+
+
+//Penjelasan sederhana
+//Pada latihan ini, saya belajar pemaikaian sealed class untuk membuat tiga bntuk, yaitu Loading saat data dimuat, Success saat data berhasil diterima, dan Error saat terjadi kesalahan. Saya juga menggunakan when untuk menampilkan pesan sesuai dengan kondisi yang terjadi.
